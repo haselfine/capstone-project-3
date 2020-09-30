@@ -14,7 +14,7 @@ class Artist(BaseModel):
         return f'Name: {self.artist_name}. Email: {self.email}'
 
 class Artwork(BaseModel):
-    artist = ForeignKeyField(Artist, backref='artwork')
+    artist = ForeignKeyField(Artist, backref='artwork', primary_key=True)
     artwork_name = CharField(constraints=[Check('length(artwork_name) >= 1'), Check('artwork_name is not null')])
     price = DecimalField(constraints=[Check('price >= 0'), Check('price < 1000000.01')])
     available = BooleanField(default=True)

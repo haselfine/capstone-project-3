@@ -12,7 +12,3 @@ def get_menu_choice(menu):
 
 def response(return_string):
     print(return_string)
-
-def array_response(return_array):
-    for item in return_array:
-        print(item)
