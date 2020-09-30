@@ -8,6 +8,8 @@ def main():
 
     while True:
         user_choice = view.get_menu_choice(menu)
+        if user_choice.upper() == 'Q':
+            break
         valid_response = validate_input(user_choice)
         view.response(valid_response + '\n')
 
@@ -30,6 +32,7 @@ def validate_input(user_choice):
         artist = input('Enter the name of the artist who made the artwork: ')
         db_validity = validate.is_artist_in_db(artist)
         if db_validity and user_choice == '3':
+            view.response(f'Artist: {artist}')
             view.array_response(vm.get_all_artwork(artist))
             return ''
         elif db_validity and user_choice == '4':

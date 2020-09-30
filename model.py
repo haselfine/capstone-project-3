@@ -14,13 +14,13 @@ class Artist(BaseModel):
         return f'Name: {self.artist_name}. Email: {self.email}'
 
 class Artwork(BaseModel):
-    artist_name = ForeignKeyField(Artist, backref='artwork')
+    artist = ForeignKeyField(Artist, backref='artwork')
     artwork_name = CharField(constraints=[Check('length(artwork_name) >= 1'), Check('artwork_name is not null')])
     price = DecimalField(constraints=[Check('price >= 0'), Check('price < 1000000.01')])
     available = BooleanField(default=True)
 
     def __str__(self):
-        return f'\tArtist {self.artist_name}.\n\tArtwork Name: {self.artwork_name}. Price: ${self.price}. Available? {self.available}'
+        return f'Artwork Name: {self.artwork_name}. Price: ${self.price}. Available? {self.available}'
 
 db.connect()
 db.create_tables([Artist, Artwork])
