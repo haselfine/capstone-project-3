@@ -1,12 +1,17 @@
 from menu import Menu
 from view import View
 from viewmodel import ViewModel as vm
+import validate
 
 def main():
     menu = create_menu()
 
     while True:
-        user_choice = View()
+        user_choice = view.user_input(menu)
+        
+        if send_to_validate(user_choice):
+
+
 
     
 
@@ -19,5 +24,8 @@ def create_menu():
     menu.add_option(5, "Delete an artwork", vm.delete_artwork)
     return menu
 
+def send_to_validate(user_answer):
+    if user_choice == 1:
+        if 
 
 main()

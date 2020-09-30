@@ -11,3 +11,13 @@ def is_valid_artwork(artwork):
         return False
     else:
         return True
+
+def is_valid_price(price):
+    if len(price.strip()) <= 0:
+        return False
+    elif price <= 0:
+        return False
+    elif price >= 1000000.01:
+        return False
+    else:
+        return True
