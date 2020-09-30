@@ -1,9 +1,9 @@
-from viewmodel import ViewModel as vm
+import viewmodel as vm
 
-def get_choice(menu):
+def get_menu_choice(menu):
     while True:
         print(menu)
-        choice = input('What would you like to do? ')
+        choice = input('What would you like to do? ').upper()
         if menu.isvalid(choice):
             return choice
         else:
