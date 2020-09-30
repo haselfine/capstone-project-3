@@ -9,7 +9,7 @@ def main():
     while True:
         user_choice = view.get_menu_choice(menu)
         valid_response = validate_input(user_choice)
-        view.response(valid_response)
+        view.response(valid_response + '\n')
 
 def create_menu():
     menu = Menu()
@@ -36,6 +36,6 @@ def validate_input(user_choice):
             view.array_response(vm.get_all_available_artwork(artist))
             return ''
     #TODO add delete option
-    
+
 if __name__ == '__main__':
     main()
