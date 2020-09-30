@@ -2,6 +2,13 @@ import view
 import viewmodel as vm
 import re
 
+def is_valid_choice(choice):
+    choices = ['1', '2', '3', '4', '5', 'Q']
+    if choice in choices:
+        return True
+    else:
+        return False
+
 def is_valid_artist(artist):
     if len(artist.strip()) <= 0:
         return False
@@ -17,7 +24,7 @@ def is_valid_artwork(artwork):
         return True
 
 def is_valid_price(price):
-    if len(price.strip()) <= 0:
+    if len(str(price)) <= 0:
         return False
     elif price <= 0:
         return False

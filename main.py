@@ -1,6 +1,6 @@
 from menu import Menu
 import view
-import viewModel as vm
+import viewmodel as vm
 import validate
 
 def main():
@@ -13,26 +13,29 @@ def main():
 
 def create_menu():
     menu = Menu()
-    menu.add_option(1, "Add artist")
-    menu.add_option(2, "Add artwork")
-    menu.add_option(3, "Get all artwork (available and unavailable)")
-    menu.add_option(4, "Get all available artwork")
-    menu.add_option(5, "Delete an artwork")
+    menu.add_option('1', "Add artist")
+    menu.add_option('2', "Add artwork")
+    menu.add_option('3', "Get all artwork (available & unavailable)")
+    menu.add_option('4', "Get all available artwork")
+    menu.add_option('5', "Delete an artwork")
+    menu.add_option('Q', "Quit")
     return menu
 
 def validate_input(user_choice):
-    if user_choice == 1:
+    if user_choice == '1':
         return validate.validate_artist()
-    elif user_choice == 2:
+    elif user_choice == '2':
         return validate.validate_artwork()
-    elif user_choice == 3 or user_choice == 4:
+    elif user_choice == '3' or user_choice == '4':
         artist = input('Enter the name of the artist who made the artwork: ')
         db_validity = validate.is_artist_in_db(artist)
-        if db_validity and user_choice == 3:
+        if db_validity and user_choice == '3':
             view.array_response(vm.get_all_artwork(artist))
             return ''
-        elif db_validity and user_choice == 4:
+        elif db_validity and user_choice == '4':
             view.array_response(vm.get_all_available_artwork(artist))
             return ''
-            
-main()
+    #TODO add delete option
+    
+if __name__ == '__main__':
+    main()
