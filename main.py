@@ -38,8 +38,11 @@ def validate_input(user_choice):
             return artwork_info[0]
     elif user_choice == '3' or user_choice == '4':
         db_validity_and_artist = validate.validate_artist_db()
-        if db_validity_and_artist[0]:
-            artwork_string = stringify_artwork(vm.get_all_artwork(db_validity_and_artist[1]))
+        if db_validity_and_artist[0] and user_choice == '3':
+            artwork_string = stringify_artwork(listify_artwork(vm.get_all_artwork(db_validity_and_artist[1])))
+            return artwork_string
+        elif db_validity_and_artist[0] and user_choice == '4':
+            artwork_string = stringify_artwork(listify_artwork(vm.get_all_available_artwork(db_validity_and_artist[1])))
             return artwork_string
         else:
             return 'Could not find that artist'
@@ -50,7 +53,7 @@ def validate_input(user_choice):
             if db_validity_and_artwork[0]:
                 if validate.are_you_sure('delete the artwork'):
                     vm.delete_artwork(db_validity_and_artist[1], db_validity_and_artwork[1])
-                    return f'{db_validity_and_artwork} was deleted.'
+                    return f'{db_validity_and_artwork[1]} was deleted.'
                 else:
                     return 'Artwork was not deleted.'
             else:
@@ -60,8 +63,16 @@ def validate_input(user_choice):
 
 
 
-def stringify_artwork(artwork_array):
-    return '\n'.join(artwork_array)
+def listify_artwork(artwork_obj):
+    artwork_list = []
+    for artwork in artwork_obj:
+        artwork_string = f'Name: {artwork.artwork_name} | Price: {artwork.price} | Available? {artwork.available}'
+        artwork_list.append(artwork_string)
+    return artwork_list
+
+def stringify_artwork(artwork_list):
+    return '\n'.join(artwork_list)
+
 
 if __name__ == '__main__':
     main()

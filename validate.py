@@ -34,11 +34,14 @@ def is_valid_price(price):
         return True
 
 def is_artist_in_db(artist):
+    artist_info = []
     artist_in_db = vm.find_artist(artist)
     if artist_in_db == None:
-        return False
+        artist_info = [False]
+        return artist_info
     else:
-        return True
+        artist_info = [True, artist_in_db.artist_id]
+        return artist_info
 
 def is_artwork_in_db(artist, artwork):
     artwork_in_db = vm.find_artwork(artist, artwork)
@@ -53,11 +56,11 @@ def is_valid_email(email):
 
 def is_available(availability):
     if availability == 'y':
-        return True
+        return 1
     elif availability == 'n':
-        return False
+        return 0
     else:
-        return 'Invalid'
+        return -1
 
 def validate_artist():
     artist_info = []
@@ -77,15 +80,16 @@ def validate_artist():
 
 def validate_artwork():
     artwork_info = []
-    artist = input('Enter the name of the artist who made the artwork: ')
-    if is_artist_in_db(artist):
+    artist_info = validate_artist_db()
+    if artist_info[0]:
         artwork_to_add = str(input('Enter the name of the artwork: '))
         if is_valid_artwork(artwork_to_add):
             price_to_add = float(input('Enter the price of the artwork: '))
             if is_valid_price(price_to_add):
                 availability_to_add = input('Is the artwork available? Type "y" for yes or "n" for no. ')
-                if is_available(availability_to_add) != 'Invalid':
-                    artwork_info = ['artwork-success', artist, artwork_to_add, price_to_add, availability_to_add]
+                if is_available(availability_to_add) != -1:
+                    print(is_available(availability_to_add))
+                    artwork_info = ['artwork-success', artist_info[1], artwork_to_add, price_to_add, is_available(availability_to_add)]
                     return artwork_info
                 else:
                     artwork_info = ['Availability must be "y" or "n"']
@@ -102,19 +106,18 @@ def validate_artwork():
 
 def validate_artist_db():
     artist = input('Enter the name of the artist who made the artwork: ')
-    db_validity = is_artist_in_db(artist)
-    db_validity_and_artist = [db_validity, artist]
+    db_validity_and_artist = is_artist_in_db(artist)
     return db_validity_and_artist
 
-def validate_artwork_db(artist):
+def validate_artwork_db(artist_id):
     artwork = input('Enter the name of the artwork: ')
-    db_validity = is_artwork_in_db(artist, artwork)
+    db_validity = is_artwork_in_db(artist_id, artwork)
     db_validity_and_artwork = [db_validity, artwork]
     return db_validity_and_artwork
 
 def are_you_sure(choice):
     while True:
-        yes_or_no = input(f'Are you sure you would like to {choice}? y or n')
+        yes_or_no = input(f'Are you sure you would like to {choice}? y or n: ')
         if yes_or_no == 'y':
             return True
         elif yes_or_no == 'n':
