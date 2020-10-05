@@ -24,6 +24,7 @@ def create_menu():
     menu.add_option('3', "Get all artwork (available & unavailable)")
     menu.add_option('4', "Get all available artwork")
     menu.add_option('5', "Delete an artwork")
+    menu.add_option('6', "Update artwork availability")
     menu.add_option('Q', "Quit")
     return menu
 
@@ -38,6 +39,8 @@ def menu_actions(user_choice):
         return get_all_available_artwork()
     elif user_choice == '5':
         return delete_artwork()
+    elif user_choice == '6':
+        return update_artwork()
 
 def add_artist(): 
     artist_info = validate.validate_artist() #returns a list of [0]: success/failure and if successful [1]: artist name, [2]: artist email
@@ -78,11 +81,27 @@ def delete_artwork():
     if db_validity_and_artist[0]:
         db_validity_and_artwork = validate.validate_artwork_db(db_validity_and_artist[1]) #returns same as above except [1]: artwork name
         if db_validity_and_artwork[0]:
-            if validate.are_you_sure('delete the artwork'): #checks if user is certain
+            if validate.are_you_sure('Are you sure you would like to delete the artwork'): #checks if user is certain
                 vm.delete_artwork(db_validity_and_artist[1], db_validity_and_artwork[1]) #send to viewmodel to delete
                 return f'{db_validity_and_artwork[1]} was deleted.'
             else:
                 return 'Artwork was not deleted.'
+        else:
+            return f'Could not find artwork named "{db_validity_and_artwork[1]}" by {db_validity_and_artwork[1]}.'
+    else:
+        return f'Could not find artist {db_validity_and_artist[1]}.'
+
+def update_artwork(): #almost the same as delete except sends to update function in viewmodel
+    db_validity_and_artist = validate.validate_artist_db()
+    if db_validity_and_artist[0]:
+        db_validity_and_artwork = validate.validate_artwork_db(db_validity_and_artist[1])
+        if db_validity_and_artwork[0]:
+            if validate.are_you_sure('Is the artwork available') == True:
+                vm.update_artwork(db_validity_and_artist[1], db_validity_and_artwork[1], 1)
+                return f'{db_validity_and_artwork[1]} was updated to "Available"'
+            else:
+                vm.update_artwork(db_validity_and_artist[1], db_validity_and_artwork[1], 0)
+                return f'{db_validity_and_artwork[1]} was updated to "Unavailable"'
         else:
             return f'Could not find artwork named "{db_validity_and_artwork[1]}" by {db_validity_and_artwork[1]}.'
     else:

@@ -3,7 +3,7 @@ import viewmodel as vm
 import re
 
 def is_valid_choice(choice):
-    choices = ['1', '2', '3', '4', '5', 'Q']
+    choices = ['1', '2', '3', '4', '5', '6', 'Q']
     if choice in choices:
         return True
     else:
@@ -119,7 +119,7 @@ def validate_artwork_db(artist_id):
 
 def are_you_sure(choice):
     while True:
-        yes_or_no = input(f'Are you sure you would like to {choice}? y or n: ')
+        yes_or_no = input(f'{choice}? y or n: ')
         if yes_or_no == 'y':
             return True
         elif yes_or_no == 'n':

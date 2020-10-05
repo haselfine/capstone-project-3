@@ -55,3 +55,9 @@ def delete_artwork(artist_id_in, artwork_name_in):
     except DatabaseError:# as de:
         #return de
         return 'Sorry. There was an error deleting the artwork'
+
+def update_artwork(artist_id_in, artwork_name_in, available_in):
+    try:
+        return Artwork.update(available=available_in).where(Artwork.artist_id == artist_id_in, Artwork.artwork_name == artwork_name_in).execute()
+    except DatabaseError:
+        return 'Sorry there was an error updating the artwork'
