@@ -3,8 +3,13 @@ import view
 import viewmodel as vm
 import validate
 
+'''
+This program uses a MVVM structure with a validation module between the view and the viewmodel.
+The user chooses an option from the menu, which sends it to a 
+'''
+
 def main():
-    menu = create_menu()
+    menu = create_menu() #unlike readinglist, this menu doesn't have functions in its menu options. Just responds to digits
 
     while True:
         user_choice = view.get_menu_choice(menu)
@@ -39,11 +44,17 @@ def validate_input(user_choice):
     elif user_choice == '3' or user_choice == '4':
         db_validity_and_artist = validate.validate_artist_db()
         if db_validity_and_artist[0] and user_choice == '3':
-            artwork_string = stringify_artwork(listify_artwork(vm.get_all_artwork(db_validity_and_artist[1])))
-            return artwork_string
+            all_artwork_list = listify_artwork(vm.get_all_artwork(db_validity_and_artist[1]))
+            if len(all_artwork_list) > 0:
+                return stringify_artwork(all_artwork_list)
+            else: 
+                return 'No artwork by that artist'
         elif db_validity_and_artist[0] and user_choice == '4':
-            artwork_string = stringify_artwork(listify_artwork(vm.get_all_available_artwork(db_validity_and_artist[1])))
-            return artwork_string
+            available_artwork_list = listify_artwork(vm.get_all_artwork(db_validity_and_artist[1]))
+            if len(available_artwork_list) > 0:
+                return stringify_artwork(available_artwork_list)
+            else:
+                return 'No artwork by that artist'
         else:
             return 'Could not find that artist'
     elif user_choice == '5':
@@ -72,7 +83,6 @@ def listify_artwork(artwork_obj):
 
 def stringify_artwork(artwork_list):
     return '\n'.join(artwork_list)
-
 
 if __name__ == '__main__':
     main()

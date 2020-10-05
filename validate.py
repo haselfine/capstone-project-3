@@ -24,14 +24,12 @@ def is_valid_artwork(artwork):
         return True
 
 def is_valid_price(price):
-    if len(str(price)) <= 0:
-        return False
-    elif price <= 0:
-        return False
-    elif price >= 1000000.01:
-        return False
-    else:
+    if isinstance(price, int) or isinstance(price, float):
+        is_number = True
+    if len(str(price)) >= 0 and price >= 0 and price <= 1000000 and is_number:
         return True
+    else:
+        return False
 
 def is_artist_in_db(artist):
     artist_info = []
@@ -84,11 +82,10 @@ def validate_artwork():
     if artist_info[0]:
         artwork_to_add = str(input('Enter the name of the artwork: '))
         if is_valid_artwork(artwork_to_add):
-            price_to_add = float(input('Enter the price of the artwork: '))
+            price_to_add = int(input('Enter the price of the artwork: '))
             if is_valid_price(price_to_add):
                 availability_to_add = input('Is the artwork available? Type "y" for yes or "n" for no. ')
                 if is_available(availability_to_add) != -1:
-                    print(is_available(availability_to_add))
                     artwork_info = ['artwork-success', artist_info[1], artwork_to_add, price_to_add, is_available(availability_to_add)]
                     return artwork_info
                 else:
